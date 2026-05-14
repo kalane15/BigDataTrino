@@ -34,8 +34,8 @@
       - data-network
     environment:
         CLICKHOUSE_DB: default
-        CLICKHOUSE_USER: spark_user
-        CLICKHOUSE_PASSWORD: spark_password
+        CLICKHOUSE_USER: default
+        CLICKHOUSE_PASSWORD: password
         CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
