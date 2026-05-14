@@ -158,53 +158,6 @@ JOIN clickhouse.default.dim_supplier s
 
 
 
-INSERT INTO clickhouse.default.dim_product (
-    sale_product_id, product_supplier_id, product_name, product_category,
-    product_price, product_quantity, product_weight, product_color, product_size,
-    product_brand, product_material, product_description, product_rating,
-    product_reviews, product_release_date, product_expiry_date
-)
-WITH combined AS (
-    SELECT
-        m.product_name, m.product_category, m.product_price, m.product_quantity,
-        m.product_weight, m.product_color, m.product_size, m.product_brand,
-        m.product_material, m.product_description, m.product_rating, m.product_reviews,
-        m.product_release_date, m.product_expiry_date,
-        m.supplier_name, m.supplier_email
-    FROM postgresql.public.mock_data m
-    WHERE m.product_name IS NOT NULL
-    UNION ALL
-    SELECT
-        m.product_name, m.product_category, m.product_price, m.product_quantity,
-        m.product_weight, m.product_color, m.product_size, m.product_brand,
-        m.product_material, m.product_description, m.product_rating, m.product_reviews,
-        m.product_release_date, m.product_expiry_date,
-        m.supplier_name, m.supplier_email
-    FROM clickhouse.default.mock_data m
-    WHERE m.product_name IS NOT NULL
-),
-distinct_products AS (
-    SELECT DISTINCT
-        product_name, product_category, product_price, product_quantity,
-        product_weight, product_color, product_size, product_brand,
-        product_material, product_description, product_rating, product_reviews,
-        product_release_date, product_expiry_date,
-        supplier_name, supplier_email
-    FROM combined
-)
-SELECT
-    ROW_NUMBER() OVER () AS sale_product_id,
-    s.product_supplier_id,
-    dp.product_name, dp.product_category, dp.product_price, dp.product_quantity,
-    dp.product_weight, dp.product_color, dp.product_size, dp.product_brand,
-    dp.product_material, dp.product_description, dp.product_rating, dp.product_reviews,
-    dp.product_release_date, dp.product_expiry_date
-FROM distinct_products dp
-JOIN clickhouse.default.dim_supplier s
-    ON dp.supplier_name = s.supplier_name AND dp.supplier_email = s.supplier_email;
-
-
-
 INSERT INTO clickhouse.default.dim_customer (
 sale_customer_id, customer_first_name, customer_last_name, customer_age,
 customer_email, customer_country, customer_postal_code, customer_pet_id, pet_category
@@ -275,8 +228,7 @@ SELECT
     st.sale_store_id,
     asale.sale_quantity,
     asale.sale_total_price,
-    -- преобразование строки в дату (формат 'MM/DD/YYYY')
-    TRY(CAST(JSON_EXTRACT_SCALAR(JSON '{"d": "' || asale.sale_date || '"}', '$.d') AS DATE))
+    DATE_PARSE(asale.sale_date, '%m/%d/%Y') AS DATE
 FROM all_sales asale
 JOIN clickhouse.default.dim_product p
     ON asale.product_name = p.product_name
