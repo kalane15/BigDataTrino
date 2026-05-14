@@ -48,6 +48,8 @@
     container_name: lab4_trino
     volumes:
       - ./trino/etc:/etc/trino
+      - ./trino/scripts:/trino/scripts          
+      - ./trino/run_reports.sh:/trino/run_reports.sh 
     ports:
       - "8080:8080"
     networks:
