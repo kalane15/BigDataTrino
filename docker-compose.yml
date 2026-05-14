@@ -1,6 +1,4 @@
-﻿version: '3.8'
-
-services:
+﻿services:
   postgres:
     image: postgres:17
     container_name: postgres
@@ -13,7 +11,9 @@ services:
       - ./data:/data
       -  pgdata:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5431:5432"
+    networks:
+      - data-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 10s
@@ -28,8 +28,8 @@ services:
       - "9000:9000"
     volumes:
       - clickhouse-data:/var/lib/clickhouse
-      - ./config/users.d:/etc/clickhouse-server/users.d
       - ./init/clickhouse:/docker-entrypoint-initdb.d
+      - ./data:/var/lib/clickhouse/user_files/data  
     networks:
       - data-network
     environment:
@@ -37,14 +37,21 @@ services:
         CLICKHOUSE_USER: spark_user
         CLICKHOUSE_PASSWORD: spark_password
         CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   trino:
-    image: trinodb/trino:434
+    image: trinodb/trino:latest
     container_name: lab4_trino
     volumes:
       - ./trino/etc:/etc/trino
     ports:
       - "8080:8080"
+    networks:
+      - data-network
     depends_on:
       postgres:
         condition: service_healthy
@@ -59,3 +66,7 @@ services:
 volumes:
   pgdata:
   clickhouse-data:
+  
+networks:
+  data-network:
+    driver: bridge
