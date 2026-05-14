@@ -1,4 +1,4 @@
-﻿-- Топ-5 поставщиков с наибольшей выручкой
+-- Топ-5 поставщиков с наибольшей выручкой
 DROP TABLE IF EXISTS clickhouse.default.dm5_top_suppliers_by_revenue;
 CREATE TABLE clickhouse.default.dm5_top_suppliers_by_revenue AS
 SELECT

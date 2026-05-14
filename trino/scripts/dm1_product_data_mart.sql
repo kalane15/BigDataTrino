@@ -1,4 +1,4 @@
-﻿-- Топ-10 самых продаваемых продуктов
+-- Топ-10 самых продаваемых продуктов
 DROP TABLE IF EXISTS clickhouse.default.dm1_top_10_products;
 CREATE TABLE clickhouse.default.dm1_top_10_products AS
 SELECT

@@ -1,4 +1,4 @@
-﻿-- Продукты с наивысшим рейтингом
+-- Продукты с наивысшим рейтингом
 DROP TABLE IF EXISTS clickhouse.default.dm6_highest_rated_products;
 CREATE TABLE clickhouse.default.dm6_highest_rated_products AS
 SELECT

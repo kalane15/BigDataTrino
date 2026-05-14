@@ -1,4 +1,4 @@
-﻿-- Месячные и годовые тренды продаж (сравнение выручки)
+-- Месячные и годовые тренды продаж (сравнение выручки)
 DROP TABLE IF EXISTS clickhouse.default.dm3_revenue_comparsion;
 CREATE TABLE clickhouse.default.dm3_revenue_comparsion AS
 SELECT

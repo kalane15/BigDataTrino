@@ -1,4 +1,4 @@
-﻿-- Распределение клиентов по странам
+-- Распределение клиентов по странам
 DROP TABLE IF EXISTS clickhouse.default.dm2_customers_by_country;
 CREATE TABLE clickhouse.default.dm2_customers_by_country AS
 SELECT

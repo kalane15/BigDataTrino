@@ -5,8 +5,9 @@
 
 Запуск:
 1. docker compose up -d
-2. docker exec -it lab4_trino bash /trino/run_reports.sh 
-3. Дождаться завершения рабоыт всех скриптов
+2. Подождать несколько секунд после поднятия контейнеров, чтобы сервер Trino инициализировался
+3. docker exec -it lab4_trino bash /trino/run_reports.sh 
+4. Дождаться завершения работы всех скриптов
 
 Подключение к clickhouse будет доступно по следующим параметрам:
 пользователь: default

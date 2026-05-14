@@ -1,4 +1,4 @@
-﻿-- Топ-5 магазинов с наибольшей выручкой
+-- Топ-5 магазинов с наибольшей выручкой
 DROP TABLE IF EXISTS clickhouse.default.dm4_top_stores_by_revenue;
 CREATE TABLE clickhouse.default.dm4_top_stores_by_revenue AS
 SELECT
