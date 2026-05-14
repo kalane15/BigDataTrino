@@ -1,4 +1,3 @@
--- dm6_product_quality_data_mart.sql
 -- Продукты с наивысшим рейтингом
 DROP TABLE IF EXISTS clickhouse.default.dm6_highest_rated_products;
 CREATE TABLE clickhouse.default.dm6_highest_rated_products AS
@@ -7,8 +6,7 @@ SELECT
     product_price,
     product_rating
 FROM clickhouse.default.dim_product
-WHERE product_rating = (SELECT MAX(product_rating) FROM clickhouse.default.dim_product)
-ORDER BY product_rating DESC;
+WHERE product_rating = (SELECT MAX(product_rating) FROM clickhouse.default.dim_product);
 
 -- Продукты с наименьшим рейтингом
 DROP TABLE IF EXISTS clickhouse.default.dm6_lowest_rated_products;
@@ -18,8 +16,7 @@ SELECT
     product_price,
     product_rating
 FROM clickhouse.default.dim_product
-WHERE product_rating = (SELECT MIN(product_rating) FROM clickhouse.default.dim_product)
-ORDER BY product_rating ASC;
+WHERE product_rating = (SELECT MIN(product_rating) FROM clickhouse.default.dim_product);
 
 -- Корреляция между рейтингом и объемом продаж (коэффициент Пирсона)
 DROP TABLE IF EXISTS clickhouse.default.dm6_rating_sales_correlation;
@@ -46,5 +43,4 @@ SELECT
     product_rating
 FROM clickhouse.default.dim_product
 WHERE product_reviews IS NOT NULL
-ORDER BY product_reviews DESC, product_rating DESC
 LIMIT 5;

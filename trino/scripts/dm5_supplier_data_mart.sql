@@ -1,4 +1,3 @@
--- dm5_supplier_data_mart.sql
 -- Топ-5 поставщиков с наибольшей выручкой
 DROP TABLE IF EXISTS clickhouse.default.dm5_top_suppliers_by_revenue;
 CREATE TABLE clickhouse.default.dm5_top_suppliers_by_revenue AS
@@ -9,7 +8,6 @@ FROM clickhouse.default.fact_sales f
 JOIN clickhouse.default.dim_product p ON f.sale_product_id = p.sale_product_id
 JOIN clickhouse.default.dim_supplier sup ON p.product_supplier_id = sup.product_supplier_id
 GROUP BY sup.supplier_name
-ORDER BY total_revenue DESC
 LIMIT 5;
 
 -- Средняя цена товаров от каждого поставщика
@@ -21,8 +19,7 @@ SELECT
     AVG(p.product_price) AS avg_product_price
 FROM clickhouse.default.dim_product p
 JOIN clickhouse.default.dim_supplier sup ON p.product_supplier_id = sup.product_supplier_id
-GROUP BY sup.supplier_name, sup.supplier_email
-ORDER BY avg_product_price DESC;
+GROUP BY sup.supplier_name, sup.supplier_email;
 
 -- Распределение продаж по странам поставщиков
 DROP TABLE IF EXISTS clickhouse.default.dm5_sales_by_supplier_country;
@@ -34,5 +31,4 @@ SELECT
 FROM clickhouse.default.fact_sales f
 JOIN clickhouse.default.dim_product p ON f.sale_product_id = p.sale_product_id
 JOIN clickhouse.default.dim_supplier sup ON p.product_supplier_id = sup.product_supplier_id
-GROUP BY sup.supplier_country
-ORDER BY total_sales DESC, total_quantity DESC;
+GROUP BY sup.supplier_country;

@@ -1,4 +1,3 @@
--- dm1_product_data_mart.sql
 -- Топ-10 самых продаваемых продуктов
 DROP TABLE IF EXISTS clickhouse.default.dm1_top_10_products;
 CREATE TABLE clickhouse.default.dm1_top_10_products AS
@@ -10,7 +9,6 @@ SELECT
 FROM clickhouse.default.fact_sales f
 JOIN clickhouse.default.dim_product p ON f.sale_product_id = p.sale_product_id
 GROUP BY p.product_name, p.product_price
-ORDER BY total_revenue DESC
 LIMIT 10;
 
 -- Общая выручка по категориям продуктов
@@ -21,8 +19,7 @@ SELECT
     SUM(f.sale_total_price) AS total_revenue
 FROM clickhouse.default.fact_sales f
 JOIN clickhouse.default.dim_product p ON f.sale_product_id = p.sale_product_id
-GROUP BY p.product_category
-ORDER BY category_name;
+GROUP BY p.product_category;
 
 -- Средний рейтинг и количество отзывов для каждого продукта
 DROP TABLE IF EXISTS clickhouse.default.dm1_product_rating_reviews;
