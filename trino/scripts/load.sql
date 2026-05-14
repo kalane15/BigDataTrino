@@ -1,4 +1,4 @@
-TRUNCATE TABLE clickhouse.default.dim_customer_pet;
+﻿TRUNCATE TABLE clickhouse.default.dim_customer_pet;
 TRUNCATE TABLE clickhouse.default.dim_supplier;
 TRUNCATE TABLE clickhouse.default.dim_seller;
 TRUNCATE TABLE clickhouse.default.dim_store;

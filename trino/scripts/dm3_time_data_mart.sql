@@ -1,4 +1,4 @@
--- Месячные и годовые тренды продаж (сравнение выручки)
+п»ї-- РњРµСЃСЏС‡РЅС‹Рµ Рё РіРѕРґРѕРІС‹Рµ С‚СЂРµРЅРґС‹ РїСЂРѕРґР°Р¶ (СЃСЂР°РІРЅРµРЅРёРµ РІС‹СЂСѓС‡РєРё)
 DROP TABLE IF EXISTS clickhouse.default.dm3_revenue_comparsion;
 CREATE TABLE clickhouse.default.dm3_revenue_comparsion AS
 SELECT
@@ -10,7 +10,7 @@ FROM clickhouse.default.fact_sales
 WHERE sale_date IS NOT NULL
 GROUP BY EXTRACT(YEAR FROM sale_date), EXTRACT(MONTH FROM sale_date);
 
--- Сравнение выручки за разные периоды (с предыдущим месяцем)
+-- РЎСЂР°РІРЅРµРЅРёРµ РІС‹СЂСѓС‡РєРё Р·Р° СЂР°Р·РЅС‹Рµ РїРµСЂРёРѕРґС‹ (СЃ РїСЂРµРґС‹РґСѓС‰РёРј РјРµСЃСЏС†РµРј)
 DROP TABLE IF EXISTS clickhouse.default.dm3_trends;
 CREATE TABLE clickhouse.default.dm3_trends AS
 WITH monthly AS (
@@ -30,7 +30,7 @@ SELECT
     (total_revenue - LAG(total_revenue, 1) OVER (ORDER BY year, month)) / LAG(total_revenue, 1) OVER (ORDER BY year, month) * 100 AS revenue_change_percent
 FROM monthly;
 
--- Средний размер заказа по месяцам
+-- РЎСЂРµРґРЅРёР№ СЂР°Р·РјРµСЂ Р·Р°РєР°Р·Р° РїРѕ РјРµСЃСЏС†Р°Рј
 DROP TABLE IF EXISTS clickhouse.default.dm3_monthly_avg_order_value;
 CREATE TABLE clickhouse.default.dm3_monthly_avg_order_value AS
 SELECT
